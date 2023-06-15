@@ -23,10 +23,14 @@
     <input type="checkbox" v-model="checkA" @click=""><span id="checkText">202306</span>
     <input type="checkbox" v-model="checkB"><span id="checkText">202307</span>
     <input type="checkbox" v-model="checkC"><span id="checkText">202308</span>
+    <button @click="position()">定位</button>
+    <button @click="fullmap()">全圖</button>
   </div>
 </template>
 <script setup>
-import L from "leaflet";
+import L, { map } from "leaflet";
+import leafletlocatecontrol from "leaflet.locatecontrol"
+import "leaflet.locatecontrol/dist/L.Control.Locate.css"
 import "leaflet/dist/leaflet.css";
 import * as echarts from 'echarts';
 import { GridComponent } from 'echarts/components';
@@ -39,7 +43,7 @@ const checkB = ref(true);
 const checkC = ref(true);
 const mapContainer = ref(null);
 let echart = echarts;
-
+var mymap;
 onMounted(() => {
   const Emap = L.tileLayer("https://wmts.nlsc.gov.tw/wmts/{id}/default/GoogleMapsCompatible/{z}/{y}/{x}.png", {
     id: 'EMAP',
@@ -49,23 +53,24 @@ onMounted(() => {
   });
   const baseMaps = {
     電子地圖: Emap,
-    PHOTO2: Photo2,
+    正射影像圖: Photo2,
   };
 
-  var map = L.map(mapContainer.value, {
+  mymap = L.map(mapContainer.value, {
     center: [23.611, 120.768],
     zoom: 8,
     minZoom: 8,
-    maxZoom: 15,
+    maxZoom: 10,
     layers: [Emap]
     //dragging: false
   });
-  L.control.layers(baseMaps).addTo(map);
 
-  markMap(map, 25.049020778409727, 121.5137793373914, "myEcharts1");
-  markMap(map, 24.232068065379462, 120.51757552333311, "myEcharts2");
-  markMap(map, 23.43566005981651, 121.4761326531655, "myEcharts3");
-  markMap(map, 22.890224018493637, 120.53130844299105, "myEcharts4");
+  L.control.layers(baseMaps).addTo(mymap);
+
+  markMap(25.049020778409727, 121.5137793373914, "myEcharts1");
+  markMap(24.232068065379462, 120.51757552333311, "myEcharts2");
+  markMap(23.43566005981651, 121.4761326531655, "myEcharts3");
+  markMap(22.890224018493637, 120.53130844299105, "myEcharts4");
 });
 
 function initChart(int1, int2, int3, DOMID) {
@@ -102,7 +107,7 @@ function initChart(int1, int2, int3, DOMID) {
   });
 }
 
-function markMap(map, intx, inty, DOMID) {
+function markMap(intx, inty, DOMID) {
   var cmark1 = L.marker([intx, inty], {
     icon: L.divIcon({
       className: 'leaflet-echart-icon',
@@ -110,7 +115,7 @@ function markMap(map, intx, inty, DOMID) {
       iconAnchor: [70, 75],
       html: '<div id="' + DOMID + '" style="width:140px; height:180px; position:relatice;">'
     })
-  }).addTo(map);
+  }).addTo(mymap);
 
   const inta = Math.floor(Math.random() * 100);
   const intb = Math.floor(Math.random() * 100);
@@ -118,4 +123,13 @@ function markMap(map, intx, inty, DOMID) {
   initChart(inta, intb, intc, DOMID);
 }
 
+function position() {
+  console.log('定位');
+
+}
+
+function fullmap() {
+  console.log('全圖');
+  mymap.setView([23.611, 120.768],8);
+}
 </script>
