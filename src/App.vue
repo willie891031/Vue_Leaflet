@@ -143,7 +143,6 @@ function position() {
     }).addTo(mymap);
     mymap.setView(e.latlng, 14);
   }
-  mymap.on('locationfound', foundHandler);
 }
 
 function fullmap() {
