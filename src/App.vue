@@ -60,7 +60,7 @@ onMounted(() => {
     center: [23.611, 120.768],
     zoom: 8,
     minZoom: 8,
-    maxZoom: 10,
+    maxZoom: 18,
     layers: [Emap]
     //dragging: false
   });
@@ -124,12 +124,29 @@ function markMap(intx, inty, DOMID) {
 }
 
 function position() {
-  console.log('定位');
+  //定義Icon
+  const customIcon = L.icon({
+    iconUrl: 'https://letswritetw.github.io/letswrite-leaflet-osm-locate/dist/dot.svg',
+    iconSize: [16, 16],
+  });
 
+  mymap.locate({
+    setView: true, // 是否讓地圖跟著移動中心點
+    watch: false, // 是否要一直監測使用者位置
+    enableHighAccuracy: true, // 是否要高精準度的抓位置
+    timeout: 10000 // 觸發locationerror事件之前等待的毫秒數
+  });
+  function foundHandler(e) {
+    L.marker(e.latlng, {
+      icon: customIcon,
+      opacity: 1.0
+    }).addTo(mymap);
+    mymap.setView(e.latlng, 14);
+  }
+  mymap.on('locationfound', foundHandler);
 }
 
 function fullmap() {
-  console.log('全圖');
-  mymap.setView([23.611, 120.768],8);
+  mymap.setView([23.611, 120.768], 8);
 }
 </script>
