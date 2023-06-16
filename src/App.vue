@@ -32,14 +32,13 @@ import "bootstrap";
   </div>
 </template>
 <script setup>
-import L, { map } from "leaflet";
+//import L, { map } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import * as echarts from 'echarts';
 import { GridComponent } from 'echarts/components';
 import { BarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import { onMounted, ref, watch } from 'vue';
-
 const check1 = ref(true);
 const check2 = ref(true);
 const check3 = ref(true);
@@ -84,18 +83,10 @@ onMounted(() => {
     zoomControl: false
   });
   L.control.layers(baseMaps2).addTo(mymap2);
-  //兩圖連動
-  var maps = [mymap, mymap2];
-  function maplink(e) {
-    var _this = this;
-    maps.map(function (t) {
-      t.setView(_this.getCenter(), _this.getZoom());
-    });
-  }
-  maps.map(function (t) {
-    t.on({ drag: maplink, zoom: maplink });
-  })
+  mymap.sync(mymap2);
+  mymap2.sync(mymap);
 
+  
   markMap(25.049020778409727, 121.5137793373914, "myEcharts1");
   markMap(24.232068065379462, 120.51757552333311, "myEcharts2");
   markMap(23.43566005981651, 121.4761326531655, "myEcharts3");

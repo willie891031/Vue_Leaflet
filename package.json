@@ -12,6 +12,7 @@
     "echarts": "^5.4.2",
     "leaflet": "^1.9.2",
     "leaflet.locatecontrol": "^0.79.0",
+    "leaflet.sync": "^0.2.4",
     "vite": "^4.3.9",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
