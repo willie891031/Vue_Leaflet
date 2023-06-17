@@ -153,67 +153,67 @@ onMounted(() => {
   markMap(22.890224018493637, 120.53130844299105, "myEcharts4");
 });
 
-// function initChart(int1, int2, int3, DOMID, Enum) {
-//   let chart = echart.init(document.getElementById(DOMID));
-//   let Xdata = [int1 + '%', int2 + '%', int3 + '%'];
-//   let Ydata = [int1, int2, int3];
-//   const color1 = '#ffc557'; const color2 = '#21c918'; const color3 = '#4169E1';
-//   let colorD = [color1, color2, color3];
-//   if (Enum == 2) {
-//     if (int1 != null && int2 != null) {
-//       Xdata = [int1 + '%', int2 + '%'];
-//       Ydata = [int1, int2];
-//       colorD = [color1, color2];
-//     }
-//     else if (int1 != null && int3 != null) {
-//       Xdata = [int1 + '%', int3 + '%'];
-//       Ydata = [int1, int3];
-//       colorD = [color1, color3];
-//     }
-//     else if (int2 != null && int3 != null) {
-//       Xdata = [int2 + '%', int3 + '%'];
-//       Ydata = [int2, int3];
-//       colorD = [color2, color3];
-//     }
-//   }
-//   else if (Enum == 1) {
-//     if (int1 != null) { Xdata = [int1 + '%']; Ydata = [int1]; colorD = [color1]; }
-//     if (int2 != null) { Xdata = [int2 + '%']; Ydata = [int2]; colorD = [color2]; }
-//     if (int3 != null) { Xdata = [int3 + '%']; Ydata = [int3]; colorD = [color3]; }
-//   } else if (Enum == 0) {
-//     Xdata = []; Ydata = []; colorD = [];;
-//   }
-//   // 把配置和数据放这里
-//   chart.setOption({
-//     xAxis: {
-//       type: 'category',
-//       data: Xdata,
-//       axisLine: {
-//         show: false
-//       },
-//       axisTick: {
-//         show: false
-//       }
-//     },
-//     yAxis: {
-//       show: false
-//     },
-//     series: [
-//       {
-//         data: Ydata,
-//         type: 'bar',
-//         itemStyle: {
-//           normal: {
-//             color: function (params) {
-//               var colorList = colorD;
-//               return colorList[params.dataIndex];
-//             }
-//           }
-//         }
-//       }
-//     ]
-//   });
-// }
+function initChart(int1, int2, int3, DOMID, Enum) {
+  let chart = echart.init(document.getElementById(DOMID));
+  let Xdata = [int1 + '%', int2 + '%', int3 + '%'];
+  let Ydata = [int1, int2, int3];
+  const color1 = '#ffc557'; const color2 = '#21c918'; const color3 = '#4169E1';
+  let colorD = [color1, color2, color3];
+  if (Enum == 2) {
+    if (int1 != null && int2 != null) {
+      Xdata = [int1 + '%', int2 + '%'];
+      Ydata = [int1, int2];
+      colorD = [color1, color2];
+    }
+    else if (int1 != null && int3 != null) {
+      Xdata = [int1 + '%', int3 + '%'];
+      Ydata = [int1, int3];
+      colorD = [color1, color3];
+    }
+    else if (int2 != null && int3 != null) {
+      Xdata = [int2 + '%', int3 + '%'];
+      Ydata = [int2, int3];
+      colorD = [color2, color3];
+    }
+  }
+  else if (Enum == 1) {
+    if (int1 != null) { Xdata = [int1 + '%']; Ydata = [int1]; colorD = [color1]; }
+    if (int2 != null) { Xdata = [int2 + '%']; Ydata = [int2]; colorD = [color2]; }
+    if (int3 != null) { Xdata = [int3 + '%']; Ydata = [int3]; colorD = [color3]; }
+  } else if (Enum == 0) {
+    Xdata = []; Ydata = []; colorD = [];;
+  }
+  // 把配置和数据放这里
+  chart.setOption({
+    xAxis: {
+      type: 'category',
+      data: Xdata,
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      }
+    },
+    yAxis: {
+      show: false
+    },
+    series: [
+      {
+        data: Ydata,
+        type: 'bar',
+        itemStyle: {
+          normal: {
+            color: function (params) {
+              var colorList = colorD;
+              return colorList[params.dataIndex];
+            }
+          }
+        }
+      }
+    ]
+  });
+}
 
 function markMap(intx, inty, DOMID) {
   var cmark1 = L.marker([intx, inty], {
@@ -331,6 +331,9 @@ function onMapClick(e) {
         title: 'Position'
       }).addTo(mymap).bindPopup("<b>"+rs.ctyName+rs.townName+"</b><br>"+rs.villageName+rs.sectName).openPopup();
       markerList.push(marker);
+    })
+    .catch((error)=>{
+      console.log(error);
     })
 }
 //刪除標記
